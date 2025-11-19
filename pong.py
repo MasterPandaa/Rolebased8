@@ -6,7 +6,6 @@ from typing import Tuple
 
 import pygame
 
-
 # ----- Configuration -----
 WIDTH, HEIGHT = 800, 600
 FPS = 120
@@ -23,7 +22,7 @@ MARGIN = 20
 
 PLAYER_SPEED = 420.0  # px/s
 AI_MAX_SPEED = 400.0  # px/s
-BALL_SPEED = 360.0     # initial speed px/s
+BALL_SPEED = 360.0  # initial speed px/s
 BALL_SPEED_INCREMENT = 24.0  # on each paddle hit
 BALL_MAX_SPEED = 720.0
 
@@ -106,7 +105,9 @@ class Ball:
     def collide_paddle(self, paddle: Paddle) -> bool:
         if self.rect.colliderect(paddle.rect):
             # Determine hit position relative to paddle center to compute bounce angle
-            offset = (self.rect.centery - paddle.rect.centery) / (paddle.rect.height / 2)
+            offset = (self.rect.centery - paddle.rect.centery) / (
+                paddle.rect.height / 2
+            )
             offset = max(-1.0, min(1.0, offset))
 
             speed = min(self.vel.length() + BALL_SPEED_INCREMENT, BALL_MAX_SPEED)
@@ -143,7 +144,9 @@ class PongGame:
 
         # Entities
         self.player = Paddle(MARGIN, HEIGHT // 2 - PADDLE_HEIGHT // 2)
-        self.ai = Paddle(WIDTH - MARGIN - PADDLE_WIDTH, HEIGHT // 2 - PADDLE_HEIGHT // 2)
+        self.ai = Paddle(
+            WIDTH - MARGIN - PADDLE_WIDTH, HEIGHT // 2 - PADDLE_HEIGHT // 2
+        )
         self.ball = Ball(WIDTH // 2 - BALL_SIZE // 2, HEIGHT // 2 - BALL_SIZE // 2)
 
         # Game state
@@ -270,13 +273,17 @@ class PongGame:
         if self.waiting_for_serve:
             msg = "Press SPACE to serve"
             serve_text = self.font.render(msg, True, GREY)
-            self.screen.blit(serve_text, (WIDTH // 2 - serve_text.get_width() // 2, HEIGHT // 2 - 40))
+            self.screen.blit(
+                serve_text, (WIDTH // 2 - serve_text.get_width() // 2, HEIGHT // 2 - 40)
+            )
 
         # Win condition
         if self.left_score >= SCORE_TO_WIN or self.right_score >= SCORE_TO_WIN:
             winner = "Player" if self.left_score > self.right_score else "AI"
             win_text = self.big_font.render(f"{winner} Wins!", True, WHITE)
-            self.screen.blit(win_text, (WIDTH // 2 - win_text.get_width() // 2, HEIGHT // 2 - 12))
+            self.screen.blit(
+                win_text, (WIDTH // 2 - win_text.get_width() // 2, HEIGHT // 2 - 12)
+            )
 
         pygame.display.flip()
 
